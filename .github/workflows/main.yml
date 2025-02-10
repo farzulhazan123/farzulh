@@ -1,0 +1,24 @@
+name: Daily Commit
+
+on:
+  schedule:
+    - cron: '15 12 * * *'  # This will run every day at 12:00 PM UTC
+
+jobs:
+  daily_commit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Commit changes with email farzul.cs@gramener.com
+        run: |
+          echo "Daily commit on $(date)" >> daily_commit.txt
+          git config --local user.email "farzul.cs@gramener.com"
+          git config --local user.name "Automated Commit"
+          git add daily_commit.txt
+          git commit -m "Daily commit on $(date)"
+          git push
